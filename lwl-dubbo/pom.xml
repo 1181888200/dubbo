@@ -7,7 +7,9 @@
 	<version>1.0.0</version>
 	<name>lwl-dubbo</name>
 	<modules>
-		<module>lwl-dubbo</module>
+		<module>dubbo-web</module>
+		<module>dubbo-client</module>
+		<module>dubbo-service</module>
 	</modules>
 	<properties>
 		<internal.version>1.0.0</internal.version>
