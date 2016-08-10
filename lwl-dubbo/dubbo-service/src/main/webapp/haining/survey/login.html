@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>满意度调查</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+		<style>
+			.glyphicon{
+				position:static
+			}
+			.form-control{
+				height: 50px;
+			}
+			.btn{
+				height: 50px;
+			}
+		</style>
+  </head>
+  <body class="container">
+			<h2 class="" align="center">满意度调查</h2>
+  <div style="margin: 5%;padding: 10px;margin-top: 2%;">
+  	 <div class="input-group form-group">
+    				<span class="input-group-addon glyphicon glyphicon-phone "  ></span>
+            <input type="text" class="form-control" placeholder="输入病人姓名" id="name">
+       </div>
+       
+   <div class="input-group form-group">
+    				<span class="input-group-addon glyphicon glyphicon-credit-card"  ></span>
+            <input type="text" class="form-control" placeholder="输入住院号" id="inpatientNo">
+  </div>
+  
+  <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-top: 10%;" onclick="getLogin()">进入问卷</button>
+  </div>	  
+  <script src="../../resources/js/jquery-1.9.1.js"></script>
+  <script src="../../resources/js/bootstrap.js"></script>
+    
+    <script>
+    var storage = window.localStorage;
+    storage.removeItem("name");
+    storage.removeItem("medCard");
+    storage.removeItem("subjectId");
+    
+    	function getLogin(){
+	    	var name= $("#name").val();
+	    	var inpatientNo= $("#inpatientNo").val();
+	    	if(name==null||name==""){
+	    		alert("请输入病人姓名");
+	    		return;
+	    	}
+	    	if(inpatientNo==null||inpatientNo==""){
+	    		alert("请输入住院单号");
+	    		return;
+	    	}
+	    	 $.ajax({
+	    			url : "/special-web/haining/survey/verify/inpatientInfo",
+	    			type : 'POST',
+	    			data:{
+	    				name:name,
+	    				inpatientNo:inpatientNo
+	    			},
+	    			dataType : 'json',
+	    			cache : false,
+	    			success : function(text) {
+	    				 if(text.success){
+	    					 storage.setItem("medCard",text.data.medCard);
+	    					 storage.setItem("name",text.data.name);
+    	   					 window.location.href = "survey.html";
+	    				 }else{
+	    					 alert(text.errMsg);
+	    				 }
+	    			},
+	    			error : function(jqXHR, textStatus, errorThrown) {
+	    				
+	    			}
+	    		});
+	    	  
+    		
+    	}
+    	
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://code.alibabatech.com/schema/dubbo
+         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 
+	  dubbo:registry 标签一些属性的说明：
+	      1）register是否向此注册中心注册服务，如果设为false，将只订阅，不注册。
+	      2）check注册中心不存在时，是否报错。
+	      3）subscribe是否向此注册中心订阅服务，如果设为false，将只注册，不订阅。
+	      4）timeout注册中心请求超时时间(毫秒)。
+	      5）address可以Zookeeper集群配置，地址可以多个以逗号隔开等。
+ 	 dubbo:service标签的一些属性说明：
+	     1）interface服务接口的路径
+	     2）ref引用对应的实现类的Bean的ID
+	     3）registry向指定注册中心注册，在多个注册中心时使用，值为<dubbo:registry>的id属性，多个注册中心ID用逗号分隔，如果不想将该服务注册到任何registry，可将值设为N/A
+	     4）register 默认true ，该协议的服务是否注册到注册中心。
+	 -->
+	 
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="dobbu-web"/>
+    <dubbo:registry address="N/A"/>
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="20880"/>
+    <!-- 等待时间，重试2次 -->
+    <dubbo:provider timeout="120000" retries="0"/>
+    <!-- 启动时不检查消费者 -->
+    <dubbo:consumer check="false" timeout="120000" retries="0" lazy="true"/>
+
+    <!-- 基础信息 -->
+    <dubbo:service ref="userService"
+                   interface="com.lwl.dubbo.service.UserService"/>
+                   
+                   
+</beans>
